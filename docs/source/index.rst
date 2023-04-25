@@ -15,4 +15,4 @@ RVB PY'ı kullanmak için ":doc:`usage`" sayfasını inceleyiniz, indirmek için
 .. toctree::
 
    usage
-   api
+   project_struc
