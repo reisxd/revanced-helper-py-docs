@@ -1,20 +1,16 @@
-Welcome to Lumache's documentation!
+ReVanced Builder PY'ın dökümanına hoşgeldin!
 ===================================
 
-**Lumache** (/lu'make/) is a Python library for cooks and food lovers
-that creates recipes mixing random ingredients.
-It pulls data from the `Open Food Facts database <https://world.openfoodfacts.org/>`_
-and offers a *simple* and *intuitive* API.
+ReVanced Builder PY, ReVanced Patcher'ı (github.com/revanced/revanced-patcher)
+kullanarak ReVanced projesinin desteklediği uygulamaları yamalar.
 
-Check out the :doc:`usage` section for further information, including
-how to :ref:`installation` the project.
+Bu doküman, ReVanced Builder PY'ın kullanımını ve nasıl çalıştığını anlatacak.
 
-.. note::
+RVB PY'ı kullanmak için ":doc:`usage`" sayfasını inceleyiniz, indirmek için ise
+":ref:`installation`" sayfasını inceleyiniz.
 
-   This project is under active development.
-
-Contents
---------
+İçerikler
+----------
 
 .. toctree::
 
