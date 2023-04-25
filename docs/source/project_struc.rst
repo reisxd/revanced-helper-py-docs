@@ -1,7 +1,8 @@
 Proje Yapısı
 ============
 
-RVB PY'ın proje yapısı, `main.py` ana dosyasına ve `modules` klasörüne ayrılır::
+RVB PY'ın proje yapısı, `main.py` ana dosyasına ve `modules` klasörüne ayrılır:
+.. code-block::
     modules/
         ApkMirror/
                 ApkFileDownloader.py
