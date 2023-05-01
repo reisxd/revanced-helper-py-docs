@@ -5,6 +5,7 @@ RVB PY, modülleri kullanarak ana dosyada çalıştırır. Bu kısımda ana dosy
 ne yaptığı açıklanıcak.
 
 Buradaki kod, RVB PY'ın gerektirdiği tüm modülleri yükler:
+
 .. code-block:: python  
     import inquirer
     from modules.GitHubAPI import DownloadFiles
@@ -20,11 +21,13 @@ Buradaki kod, RVB PY'ın gerektirdiği tüm modülleri yükler:
 
 
 Buradaki kod, RVB PY'ın ayarlarını yükler:
+
 .. code-block:: python  
     config = modules.Configuration.Configuration()
     selectedApp = {}
 
 Buradan sonraki kodlar ise yorumlarla ne yaptığı belirtilecek:
+
 .. code-block:: python
     def main():
 
