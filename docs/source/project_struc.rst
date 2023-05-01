@@ -1,6 +1,8 @@
 Proje Yapısı
 ============
 
+.. highlight:: none
+
 RVB PY'ın proje yapısı, `main.py` ana dosyasına ve `modules` klasörüne ayrılır:
 
 ::
