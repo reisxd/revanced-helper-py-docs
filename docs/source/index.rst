@@ -16,3 +16,4 @@ RVB PY'ı kullanmak için ":doc:`usage`" sayfasını inceleyiniz, indirmek için
 
    usage
    project_struc
+   project_mainpy
