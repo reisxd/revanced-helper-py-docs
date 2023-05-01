@@ -5,6 +5,7 @@ RVB PY, modülleri kullanarak ana dosyada çalıştırır. Bu kısımda ana dosy
 ne yaptığı açıklanıcak.
 
 Buradaki kod, RVB PY'ın gerektirdiği tüm modülleri yükler:
+
 .. code-block:: python
     :linenos:
 
@@ -22,6 +23,7 @@ Buradaki kod, RVB PY'ın gerektirdiği tüm modülleri yükler:
 
 
 Buradaki kod, RVB PY'ın ayarlarını yükler:
+
 .. code-block:: python
     :linenos:
 
@@ -29,9 +31,10 @@ Buradaki kod, RVB PY'ın ayarlarını yükler:
     selectedApp = {}
 
 Buradan sonraki kodlar ise yorumlarla ne yaptığı belirtilecek:
+
 .. code-block:: python
     :linenos:
-    
+
     def main():
 
 
