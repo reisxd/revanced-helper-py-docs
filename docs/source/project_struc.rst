@@ -3,8 +3,8 @@ Proje Yapısı
 
 RVB PY'ın proje yapısı, `main.py` ana dosyasına ve `modules` klasörüne ayrılır:
 
-    .. codeblock:: python
-        
+    .. codeblock::
+
         modules/
             ApkMirror/
                     ApkFileDownloader.py
