@@ -5,12 +5,13 @@ Proje Yapısı
 
 RVB PY'ın proje yapısı, `main.py` ana dosyasına ve `modules` klasörüne ayrılır:
 
-::
+.. code-block:: python
+
     modules/
         ApkMirror/
                 ApkFileDownloader.py
                 Scraper.py
-                __init__.py
+                #__init__.py
         ADB.py
         Configuration.py
         FileDownloader.py
@@ -20,7 +21,7 @@ RVB PY'ın proje yapısı, `main.py` ana dosyasına ve `modules` klasörüne ayr
         PatcherProcess.py
         PatchesParser.py
     main.py
-    cli.py
+    #cli.py
 
 Mödüller
 --------
