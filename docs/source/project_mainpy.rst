@@ -164,7 +164,7 @@ Buradan sonraki kodlar ise yorumlarla ne yaptığı belirtilecek:
         if answers == None:
             ExitApp()
 
-        # Kullanmayacak ise yamalama işlemi başlatılır
+        # Kullanılacak ise yamalama işlemi başlatılır ve programdan çıkılır
         if not answers['downloadAPK']:
             RunPatcher(config, selectedApp)
             ExitApp()
