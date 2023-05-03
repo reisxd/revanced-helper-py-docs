@@ -454,3 +454,56 @@ GitHubAPİ modülü
                     continue
                 # En son olarak dosyayı indirir.
                 DownloadFile(fileName, asset['browser_download_url'])
+
+JavaChecker modülü
+------------------
+
+.. code-block:: python
+
+    # Gereken modülleri yükler
+    import subprocess
+    import re
+
+    # https://stackoverflow.com/a/19859308
+
+    # hasNumbers fonksiyonu, string'in içinde sayının olup olmadığını kontrol eder.
+    def hasNumbers(inputString):
+        return any(char.isdigit() for char in inputString)
+
+    # CheckJDKInstalled fonksiyonu, Java/JDK'nin yüklü olup olmadığını ve
+    # sürümünü kontrol eder.
+    def CheckJDKInstalled():
+        try:
+            # "java -version" işlemini başlatır.
+            result = subprocess.run(['java', '-version'], capture_output=True, text=True)
+            javaLog = result.stdout or result.stderr
+
+            # RegEx kullanarak parantezli olan tüm yazıları çeker.
+            buildString = re.findall('\(.+?\)', javaLog)
+
+            # Eğer hiç bir parantezli olan yazı yok ise, JDK/JRE yüklü değildir.
+            if buildString == []:
+                print('JDK is not installed.\nPlease install JDK from here: https://www.azul.com/downloads-new/?package=jdk')
+                return False
+            indx = 0
+
+            # Yazılı olan parantezlerde sayı olup olmadığını kontrol eder.
+            for i in range(0, len(buildString)):
+                if hasNumbers(buildString[i]):
+                    indx = i
+                    break
+            
+            # Parantezin içindeki sürümü çeker.
+            version = re.sub(r'[()]', '', buildString[indx].replace('build ', ''))
+            versionNumbers = version.split('.')
+
+            # Eğer sürüm eski ise, yeni bir sürüm yüklenmesi istenilir.
+            if int(versionNumbers[0]) < 17 or 'openjdk' not in javaLog:
+                print("JDK/Java was installed, but it's too old or not a JDK distribution.\nPlease install JDK from here: https://www.azul.com/downloads-new/?package=jdk")
+                return False
+            else:
+                return True
+        except FileNotFoundError:
+            # Eğer yüklü değil ise, yüklemesi istenilir.
+            print('JDK is not installed.\nPlease install JDK from here: https://www.azul.com/downloads-new/?package=jdk')
+            return False
