@@ -654,3 +654,51 @@ PatcherProcess modülü
             # yüklemesini söyler.
             print(f"""Successfully patched ReVanced! Please transfer revanced/ReVanced-{app["appName"]}.apk
             and if you patched YT/YTM, also transfer revanced/{config.GetFiles()['microg']}.""")
+
+PatchesParser modülü
+--------------------
+
+.. code-block:: python
+
+    # Gereken modüller
+    import json
+
+    # ParsePatches fonksiyonu, indirilen yamaları ayrıştırır.
+    def ParsePatches(packageName, config):
+        # Yamalar dosyasını okur.
+        with open(config.GetFiles()['patches-json']) as f:
+            patches = json.load(f)
+        for patch in patches:
+            isCompatible = False
+            
+            # Yamanın paketle uyumlu olup olmadığınu kontrol eder.
+            for package in patch['compatiblePackages']:
+
+                # Program ilk açıldığında, uygulama paketlerini yükler.
+                if package['name'] not in config.GetPatches()['packages']:
+                    packages = config.GetPatches()['packages']
+                    packages.append(package['name'])
+                    config.SetPatches('packages', packages)
+                
+                # Eğer paket ismi yamanın uyumlu olduğu paketin ismine uymuyorsa
+                # yamayı geçer.
+                if package['name'] != packageName:
+                    continue
+                else:
+                    # Uyumlu ise yamayı bir listeye koyar.
+                    patches = config.GetPatches()['patches']
+                    latestVer = package['versions'][-1] if package['versions'] else 'NONE'
+                    patches.append({
+                        'name': patch['name'],
+                        'desc': patch['description'],
+                        'latestVer': latestVer,
+                        'recommended': not patch['excluded']
+                    })
+                    config.SetPatches('patches', patches)
+
+                    # Tüm önerilen sürümleri çeker.
+                    for version in package['versions']:
+                        if version not in config.GetPatches()['recommendedVersions']:
+                            versions = config.GetPatches()['recommendedVersions']
+                            versions.append(version)
+                            config.SetPatches('recommendedVersions', versions)
