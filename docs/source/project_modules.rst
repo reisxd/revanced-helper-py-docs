@@ -507,3 +507,64 @@ JavaChecker modülü
             # Eğer yüklü değil ise, yüklemesi istenilir.
             print('JDK is not installed.\nPlease install JDK from here: https://www.azul.com/downloads-new/?package=jdk')
             return False
+
+PatchRememberer modülü
+----------------------
+
+.. code-block:: python
+    
+    # Gereken modüller yüklenir.
+    import json
+    import os
+
+
+    # CreateFile modülü, hatırlama dosyasını oluşturur.
+    def CreateFile(value={'packages': []}):
+        # Dosyayı yazar.
+        f = open("config.json", "w")
+        f.write(json.dumps(value))
+
+
+    # WritePatches modülü, kullanıcının seçtiği yamaları hatırlar (yazar).
+    def WritePatches(pkgName, patches):
+
+        # İlk öncelikle dosyayı okur.
+        f = open("config.json", "r+")
+        configJson = json.load(f)
+        found = False
+
+        # Eğer paket bulunuyorsa, yamaları paketin içine yaz.
+        for package in configJson['packages']:
+            if package['name'] == pkgName:
+                package['patches'] = patches
+                found = True
+
+        # Eğer bulunmuyorsa, paket listesine ekle.
+        if not found:
+            configJson['packages'].append({
+                'name': pkgName,
+                'patches': patches
+            })
+
+        # Dosyaya yaz.
+        f.seek(0)
+        json.dump(configJson, f)
+        f.truncate()
+
+
+    # LoadPatches fonksiyonu, hatırlanan yamaları yükler.
+    def LoadPatches(pkgName):
+        # Eğer dosya yoksa, dosyayı oluştur.
+        if not os.path.exists('./config.json'):
+            CreateFile()
+            return []
+        
+        # Dosyayı okur.
+        f = open("config.json", "r")
+        configJson = json.load(f)
+        # Eğer paket bulunursa, yamaları verir.
+        for package in configJson['packages']:
+            if package['name'] == pkgName:
+                return package['patches']
+
+        return []
