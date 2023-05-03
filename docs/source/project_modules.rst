@@ -568,3 +568,89 @@ PatchRememberer modülü
                 return package['patches']
 
         return []
+
+PatcherProcess modülü
+---------------------
+
+.. code-block:: python
+
+    # Gereken modüller yüklenir.
+    import shutil
+    import subprocess
+    from modules.ADB import *
+
+    # https://stackoverflow.com/a/72101287
+
+    # RunCommand fonksiyonu, verilen komutları çalıştırır.
+    def RunCommand(command, **kwargs):
+        process = subprocess.Popen(
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            **kwargs,
+        )
+        while True:
+            stdOut = process.stdout.readline()
+            if not stdOut and process.poll() is not None:
+                break
+            print(stdOut.decode(), end='')
+
+    # RunPatcher fonksiyonu, programın en son çalıştırdığı olan fonksiyondur.
+    # Yamalama işlemini başlatır.
+    def RunPatcher(config, app):
+        # Gereken dosyaların konumlarını ve seçilen yamaları çeker.
+        files = config.GetFiles()
+        patches = config.GetPatches()
+        hasDevice = False
+        isRooted = False
+
+        # Yamalayıcı başlatacak olan argümanlar.
+        args = [
+                'java',
+                '-jar',
+                files['cli'],
+                '-b',
+                files['patches'],
+                '--experimental',
+                '-a',
+                f'revanced/{app["appPackage"]}.apk',
+                '-o',
+                f'revanced/ReVanced-{app["appName"]}.apk',
+                '-m',
+                files["integrations"],
+                '--exclusive'
+            ]
+    
+        # Eğer bir cihaz takılı ise, o cihaza yamalanmış uygulamayı yükle.
+        if CheckADBInstalled():
+            deviceId = GetFirstDevice()
+            if deviceId:
+                args.append('-d')
+                args.append(deviceId)
+                hasDevice = True
+        # Eğer `microg-support` seçilin yamaların içinde değil ise, rootlu kurulumu başlat.
+        if 'microg-support' not in patches['patches'] or (app['appPackage'] == 'com.google.android.apps.youtube.music' and 'music-microg-support' not in patches['patches']):
+            args.append('--mount')
+            isRooted = True
+
+        # Seçilen yamaları ekle.
+        for patch in patches['patches']:
+            args.append('-i')
+            args.append(patch)
+
+        # Yamalayıcıyı başlat.
+        RunCommand(args)
+        shutil.rmtree('./revanced-cache')
+
+        if hasDevice and isRooted:
+            print('Successfully patched and mounted ReVanced!')
+        elif hasDevice:
+            # Eğer cihaz takılı, rootlu değil ve microg-support seçili ise Vanced microG'yide yükle.
+            if not isRooted and 'microg-support' in patches['patches'] or 'music-microg-support' in patches['patches']:
+                InstallMicroG(config.GetFiles())
+            print('Successfully patched and installed ReVanced and installed Vanced MicroG!')
+        else:
+            # Eğer cihaz takılı değil ise, kullanıcıdan yamalanan uygulamayı cihazına
+            # yüklemesini söyler.
+            print(f"""Successfully patched ReVanced! Please transfer revanced/ReVanced-{app["appName"]}.apk
+            and if you patched YT/YTM, also transfer revanced/{config.GetFiles()['microg']}.""")
